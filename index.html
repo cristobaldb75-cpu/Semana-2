@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--estas primeras 2 lineas declaran que es un documento del tipo html5.
+ mientras que la linea 2 indica que el idioma es español (en ingles seria "EN")-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Landing page personal de ejemplo — Semana 2 HTML5 + CSS3">
+  <title>Mi Landing Page — HTML5 + CSS3</title>
+  
+  <style>
+    /* ============================================
+       VARIABLES CSS EN :root
+       ============================================
+       Definimos 3+ variables para reutilizar
+       en toda la hoja de estilos.
+    */
+    :root {
+      /* Color primario: azul oscuro profesional */
+      --color-primario: #1e3a5f;
+      /* Color acento: naranja/coral vibrante */
+      --color-acento: #ff6b35;
+      /* Color secundario: gris claro */
+      --color-secundario: #f5f5f5;
+      /* Bordes redondeados */
+      --border-radius: 8px;
+      /* Sombra sutíl */
+      --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+      /* Espaciado base */
+      --espaciado: 1rem;
+    }
+
+    /* ============================================
+       BOX-SIZING: border-box
+       ============================================
+       Aplicamos box-sizing: border-box al 
+       selector universal (*) y sus pseudos
+       para que el padding y border se incluyan
+       en el ancho y alto total del elemento.
+    */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Estilos base del body */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fff;
+      /* El padding-top es IMPORTANTE para que el nav fixed
+         no oculte el contenido. El nav tiene height aprox 60px */
+      padding-top: 70px;
+    }
+
+    /* ============================================
+       HEADER CON POSITION: RELATIVE
+       ============================================
+       El header usa position: relative para servir
+       como punto de referencia de su hijo absolute.
+    */
+    header {
+      position: relative;
+      background: linear-gradient(135deg, var(--color-primario) 0%, #2d5a8c 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--sombra);
+      /* Margen negativo superior para compensar padding-top del body */
+      margin-top: -70px;
+      padding-top: 6rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    /* Badge flotante en el header usando POSITION: ABSOLUTE
+       Está posicionado respecto al header (su ancestro con position: relative)
+    */
+    header::after {
+      content: "✨ Premium";
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      background-color: var(--color-acento);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-weight: bold;
+      font-size: 0.85rem;
+      box-shadow: var(--sombra);
+      z-index: 50;
+    }
+
+    /* ============================================
+       NAV CON POSITION: FIXED
+       ============================================
+       El nav usa position: fixed para mantenerse
+       en la parte superior mientras haces scroll.
+       Necesita z-index alto (≥100) para estar
+       sobre otros elementos.
+    */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--color-primario);
+      box-shadow: var(--sombra);
+      z-index: 1000;
+    }
+
+    /* Flex para distribuir los enlaces horizontalmente */
+    nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--color-acento);
+    }
+
+    /* Efecto underline animado */
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-acento);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================
+       MAIN + ASIDE CON DISPLAY: FLEX
+       ============================================
+       Usamos flexbox para un layout responsive
+       que coloque main y aside lado a lado.
+    */
+    main {
+      display: flex;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    main > section {
+      flex: 1;
+    }
+
+    /* ============================================
+       ASIDE CON POSITION: STICKY
+       ============================================
+       El aside usa position: sticky para acompañar
+       el scroll del usuario pero manteniéndose
+       dentro de su contenedor padre (main).
+       top: 80px permite que el nav fixed no lo oculte.
+    */
+    aside {
+      position: sticky;
+      top: 80px;
+      width: 250px;
+      background-color: var(--color-secundario);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--sombra);
+      height: fit-content;
+      margin-top: 2rem;
+    }
+
+    aside h2 {
+      color: var(--color-primario);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    aside ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    aside li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 0.95rem;
+    }
+
+    aside li:last-child {
+      border-bottom: none;
+    }
+
+    /* ============================================
+       SECCIONES Y ARTÍCULOS
+    */
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      color: var(--color-primario);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid var(--color-acento);
+      padding-bottom: 0.5rem;
+    }
+
+    section h3 {
+      color: var(--color-primario);
+      font-size: 1.3rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    article {
+      background-color: #fafafa;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-acento);
+      transition: box-shadow 0.3s ease;
+    }
+
+    article:hover {
+      box-shadow: var(--sombra);
+    }
+
+    article img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      display: block;
+    }
+
+    /* ============================================
+       LISTAS ORDENADAS Y DESORDENADAS
+    */
+    ol, ul {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ============================================
+       ENLACES Y ÉNFASIS
+    */
+    a {
+      color: var(--color-acento);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--color-primario);
+      text-decoration: underline;
+    }
+
+    strong {
+      color: var(--color-primario);
+      font-weight: 700;
+    }
+
+    em {
+      color: var(--color-acento);
+      font-style: italic;
+    }
+
+    .destacado {
+      background-color: var(--color-acento);
+      color: white;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    /* ============================================
+       FOOTER
+    */
+    footer {
+      background-color: var(--color-primario);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 3px solid var(--color-acento);
+    }
+
+    footer a {
+      color: var(--color-acento);
+      text-decoration: underline;
+    }
+
+    footer small {
+      display: block;
+      margin-top: 0.5rem;
+      opacity: 0.85;
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+    */
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+
+      aside {
+        width: 100%;
+        position: static;
+        margin-top: 2rem;
+      }
+
+      nav ul {
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+      }
+
+      header::after {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+        top: 0.5rem;
+        right: 1rem;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      section h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+  </style>
+
+</head> <!--Cierre del head-->
+<body> <!--Aqui empieza todo lo que se ve en la pagina, algo asi como el "Cuerpo"-->
+  <header> <!--Header es el encabezado de la pagina con position: relative-->
+    <h1>Super pagina superbakan</h1> <!--Aca con H1 declaramos que la letra sera del tamaño del un titulo.-->
+    <p>Desarrolladora Web <strong>negrita</strong> · Santiago, Chile</p>
+    <!-- Badge flotante con ::after y position: absolute -->
+    <!-- <p>: párrafo de texto -->
+    <!-- <strong>: texto de importancia especial (negrita semántica), osea que este texto estara en negritas
+    para destacar -->
+  </header><!--Cierre del encabezado-->
+
+  <nav> <!--Nav con position: fixed para mantenerse en la parte superior-->
+    <ul> <!--"unordened list" o lista desordenada con display: flex-->
+      <li><a href="#sobre-RONALDINHO">Sobre RONALDINHO</a></li> <!--Cuando se ve <a/> significa un enlace,
+      en este caso hara que el usuario sea dirigido a una seccion de la Pag.
+      El LI (<li>) es para señalar que es un objeto dentro de la lista-->
+      <li><a href="#seccion memes">Seccion memes</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul><!--Cierre de la unordened list-->
+  </nav><!--Cierre del nav-->
+
+  <main> <!--Main con display: flex para layout lado a lado con aside-->
+
+    <section id="sobre-RONALDINHO">
+      <h2>Sobre mí</h2>
+      <img src="https://placehold.co/300x300?text=Ronaldinho" alt="gif de ronaldinho" width="300" height="300">
+      <!--En la linea 43 se ocupa el comando IMG para insertar una imagen (o gif en este caso), luego el "src" es para poner
+      la direccion donde se encuentra alojada la imagen dentro del dispositivo, mientras que "alt" es para dar una descripcion
+      de la imagen, luego "width" define el ANCHO y "height" define el LARGO-->
+      <p>
+        Aguante ronaldinho haciendo una <em>Bicicleta</em> terrible <strong>WENA</strong>.
+        <!--El comando "EM" significa ENFASIS 6.5, y lo que hace es escribir en cursiva(itálica)"-->
+        Tenia cualquier experiencia el loco pero probo la droga y nunca se chanto.<br> <!--BR significa break y se usa para 
+        que el contenido que viene después aparezca en la siguiente línea, no necesita un cierre "">""-->
+        Actualmente esta en cana
+      </p>
+    </section>
+
+    <section id="seccion memes">
+      <h2>seccion memes</h2>
+
+      <article>
+        <h3>Memes rancios</h3>
+        <img src="https://placehold.co/300x450?text=Meme+1" alt="gift de 150 x 450" width="300" height="450">
+        <img src="https://placehold.co/300x300?text=Gorila" alt="gorila bailando" width="300" height="300">
+        <img src="https://placehold.co/300x300?text=Meme+2" alt="gift rancio" width="300" height="300">
+        <img src="https://placehold.co/300x300?text=Meme+3" alt="gift rancio 2" width="300" height="300">
+        <p>Los memes mas rancios que encontre en la wayback machine.</p>
+        <h4>Paginas que use</h4>
+        <ol>
+          <li>wayback Machine</li>
+          <li><strong>jaidefinichon</strong></li>
+          <li>giftly</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Desarrollo Frontend</h3>
+        <img src="https://placehold.co/600x400?text=Codigo+Frontend" alt="Ejemplo de código frontend" width="600" height="400">
+        <p>Convierto diseños en páginas web funcionales e interactivas.</p>
+        <h4>Pasos de mi proceso:</h4>
+        <ol>
+          <li>Análisis de requerimientos</li>
+          <li>Wireframe y prototipo</li>
+          <li>Maquetación HTML + CSS</li>
+          <li>Interactividad con JavaScript</li>
+          <li>Pruebas y entrega</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Consultoría SEO</h3>
+        <img src="https://placehold.co/600x400?text=Metricas+SEO" alt="Gráfico de métricas SEO" width="600" height="400">
+        <p>Optimizo sitios para que aparezcan en los primeros resultados de búsqueda.</p>
+      </article>
+
+    </section>
+
+    <section id="proyectos">
+      <h2>Proyectos</h2>
+
+      <article>
+        <h3>Portfolio Personal</h3>
+        <p>Sitio web <span class="destacado">premiado</span> construido solo con HTML y CSS.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+      <article>
+        <h3>Tienda Online</h3>
+        <p>E-commerce desarrollado con JavaScript vanilla y LocalStorage.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>¿Tienes un proyecto en mente? Escr��beme:</p>
+      <ul>
+        <li>Email: <a href="mailto:coto@hotmail.cl">coto@hotmail.cl</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com" target="_blank">linkedin.com/in/jaidefinichon</a></li>
+        <li>GitHub: <a href="https://github.com" target="_blank">github.com/jaidefinichon</a></li>
+      </ul>
+    </section>
+
+    <!-- ASIDE CON POSITION: STICKY -->
+    <aside> <!--Aside con position: sticky para acompañar el scroll-->
+      <h2>Tecnologías</h2>
+      <ul>
+        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+        <li><strong>Herramientas:</strong> VS Code, Git, Figma</li>
+        <li><strong>Idiomas:</strong> Español (nativo), Inglés (intermedio)</li>
+      </ul>
+      <h5>Dato rápido</h5>
+      <p><em>Disponible para proyectos freelance</em> desde marzo 2026.</p>
+    </aside>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Ana García · <a href="#">Volver arriba</a></p>
+    <h6>Versión del sitio</h6>
+    <p><small>v2.0 — Proyecto Semana 2 · HTML5 + CSS3 · INACAP 2026</small></p>
+  </footer>
+
+</body>
+</html>
