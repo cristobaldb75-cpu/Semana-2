@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--estas primeras 2 lineas declaran que es un documento del tipo html5.
+ mientras que la linea 2 indica que el idioma es español (en ingles seria "EN")-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Landing page personal de ejemplo — Semana 1 HTML5">
+  <title>Mi Landing Page — HTML5</title>
+  <!--Desde la linea  5 a 9 se estructuran los "META-DATOS"
+  estos datos no son visibles en el navegador pero definiran mas o menos como funciona la pagina.
+  la linea 6 define los caracteres que se utilizaran(en este caso la Ñ y las tildes), charset significa "character set" y "UTF-8"
+  Es una "estandar universal".
+  La linea 7 hace que el sitio web pueda "correr" tanto en PC como en Telefonos.
+  La linea 8 hace que la descripción es el resumen que aparece bajo tu título en Google. Escribirla te permite controlar el mensaje
+  para atraer visitantes; si no la pones, el buscador mostrará frases al azar de tu página que podrían no ser atractivas.
+  SEO:Significa:Search Engine Optimization (Optimización para Motores de Búsqueda)-->
+</head> <!--Cierre del head-->
+<body> <!--Aqui empieza todo lo que se ve en la pagina, algo asi como el "Cuerpo"-->
+  <header> <!--Header es el encabezado de la pagina-->
+    <h1>Super pagina superbakan</h1> <!--Aca con H1 declaramos que la letra sera del tamaño del un titulo.-->
+    <p>Desarrolladora Web <strong>negrita</strong> · Santiago, Chile</p>
+    <!-- <p>: párrafo de texto -->
+    <!-- <strong>: texto de importancia especial (negrita semántica), osea que este texto estara en negritas
+    para destacar -->
+  </header><!--Cierre del encabezado-->
+
+  <nav> <!--Nav sirve para crear "atajos" o acessos directos a ciertas secciones de la pagina-->
+    <ul> <!--"unordened list" o lista desordenada-->
+      <li><a href="#sobre-RONALDINHO">Sobre RONALDINHO</a></li> <!--Cauando se ve <a/> significa un enlance,
+      en este caso hara que el usuario sea dirigido a una seccion del la Pag.
+      El LI (<li>) es para señalar que es un objeto dentro de la lista-->
+      <li><a href="#seccion memes">Seccion memes</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul><!--Cierre de la unordened list-->
+  </nav><!--Cierre del nav-->
+
+  <main>
+
+    <section id="sobre-RONALDINHO">
+      <h2>Sobre mí</h2>
+      <img src="C:\Users\Cristobal\Downloads\tumblr_lycwn8OfO41r9ku13o1_400.gif" alt="gif de ronaldinho" width="300" height="300">
+      <!--En la linea 43 se ocupa el comando IMG para insertar una imagen (o gif en este caso), luego el "src" es para poner
+      la direccion donde se encuentra alojada la imagen dentro del dispositivo, mientras que "alt" es para dar una descripcion
+      de la imagen, luego "width" define el ANCHO y "height" define el LARGO-->
+      <p>
+        Aguante ronaldinho haciendo una <em>Bicicleta</em> terrible <strong>WENA</strong>.
+        <!--El comando "EM" significa ENFASIS 6.5, y lo que hace es escribir en cursiva(itálica)"-->
+        Tenia cualquier experiencia el loco pero probo la droga y nunca se chanto.<br> <!--BR significa break y se usa para 
+        que el contenido que viene después aparezca en la siguiente línea, no necesita un cierre "">""-->
+        Actualmente esta en cana
+      </p>
+    </section>
+
+    <section id="seccion memes">
+      <h2>seccion memes</h2>
+
+      <article>
+        <h3>Memes rancios</h3>
+        <img src="c:\Users\Cristobal\Downloads\tumblr_ldc6alh2ns1qdzdzs.gif" alt="gift de 150 x 450" width="150" height="450">
+        <img src="c:\Users\Cristobal\Downloads\gorrila-dancing.webp" alt="gorila bailando" width="300"height="300">
+        <img src="c:\Users\Cristobal\Downloads\tumblr_mp6ag1a1oe1s1vt4mo1_500.gif" alt="gift rancio" width="300" height="300">
+        <img src="c:\Users\Cristobal\Downloads\tumblr_mp6ag1a1oe1s1vt4mo2_500.gif" alt="gift rancio 2" width="300" height="300">
+        <p>Los memes mas rancios que encontre en la wayback machine.</p>
+        <h4>Paginas que use</h4>
+        <ol>
+          <li>wayback Machine</li>
+          <li><strong>jaidefinichon</strong></li>
+          <li>giftly</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Desarrollo Frontend</h3>
+        <img src="https://placehold.co/600x400" alt="Ejemplo de código frontend" width="600" height="400">
+        <p>Convierto diseños en páginas web funcionales e interactivas.</p>
+        <h4>Pasos de mi proceso:</h4>
+        <ol>
+          <li>Análisis de requerimientos</li>
+          <li>Wireframe y prototipo</li>
+          <li>Maquetación HTML + CSS</li>
+          <li>Interactividad con JavaScript</li>
+          <li>Pruebas y entrega</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Consultoría SEO</h3>
+        <img src="c:\Users\Cristobal\Downloads\tumblr_mp98hkW6pA1qbogk6o1_400.gif" alt="Gráfico de métricas SEO" width="600" height="400">
+        <p>Optimizo sitios para que aparezcan en los primeros resultados de búsqueda.</p>
+      </article>
+
+    </section>
+
+    <section id="proyectos">
+      <h2>Proyectos</h2>
+
+      <article>
+        <h3>Portfolio Personal</h3>
+        <p>Sitio web <span class="destacado">premiado</span> construido solo con HTML y CSS.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+      <article>
+        <h3>Tienda Online</h3>
+        <p>E-commerce desarrollado con JavaScript vanilla y LocalStorage.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>¿Tienes un proyecto en mente? Escríbeme:</p>
+      <ul>
+        <li>Email: <a href="mailto:ana@ejemplo.cl">coto@hotmail.cl</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com" target="_blank">linkedin.com/in/jaidefinichon</a></li>
+        <li>GitHub: <a href="https://github.com" target="_blank">github.com/jaidefinichon</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <aside>
+    <h2>Tecnologías</h2>
+    <ul>
+      <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+      <li><strong>Herramientas:</strong> VS Code, Git, Figma</li>
+      <li><strong>Idiomas:</strong> Español (nativo), Inglés (intermedio)</li>
+    </ul>
+    <h5>Dato rápido</h5>
+    <p><em>Disponible para proyectos freelance</em> desde marzo 2026.</p>
+  </aside>
+
+  <footer>
+    <p>&copy; 2026 Ana García · <a href="#">Volver arriba</a></p>
+    <h6>Versión del sitio</h6>
+    <p><small>v1.0 — Proyecto Semana 1 · INACAP 2026</small></p>
+  </footer>
+
+</body>
+</html>
