@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Landing page personal - Semana 2 HTML5 + CSS3">
+  <title>Mi Landing Page — HTML5 + CSS3</title>
+  
+  <style>
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 1: VARIABLES CSS EN :root                                                    ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ Las variables permiten reutilizar valores en todo el CSS.                           ║
+       ║ Si cambias una variable aquí, se actualiza EN TODAS PARTES donde se use.          ║
+       ║ Ventaja: si quieres cambiar el color azul a rojo, solo cambias 1 línea.           ║
+       ║ DÓNDE VE EL USUARIO ESTOS COLORES EN LA PÁGINA:                                   ║
+       ║ - --color-primario: nav (barra arriba), header (área azul arriba), títulos        ║
+       ║ - --color-acento: badge "Premium", botones, bordes de artículos, enlaces          ║
+       ║ - --color-secundario: aside (panel derecho)                                        ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    :root {
+      /* #1e3a5f es AZUL OSCURO profesional
+         DÓNDE LO VES:
+         - Barra de navegación (nav) fija en la parte superior
+         - Encabezado (header) del sitio con degradado azul
+         - Títulos principales (h1, h2, h3)
+         - Texto de strong (negrita semántica)
+         - Fondo del footer
+         
+         CÓMO CAMBIAR: reemplaza #1e3a5f por otro color, ej: #2c5aa0 (más claro), #0f1f3a (más oscuro)
+         CÓDIGO DE COLORES HEX: 
+         - #FF0000 (rojo puro)
+         - #00FF00 (verde puro)
+         - #0000FF (azul puro)
+         - #FFFFFF (blanco)
+         - #000000 (negro)
+      */
+      --color-primario: #1e3a5f;
+      
+      /* #ff6b35 es NARANJA/CORAL vibrante
+         DÓNDE LO VES:
+         - Badge "✨ Premium" flotante en la esquina del header (fondo naranja)
+         - Bordes izquierdos de las tarjetas de artículos
+         - Línea divisoria bajo los títulos de sección
+         - Texto de los enlaces cuando pasas el mouse
+         - Texto dentro de <em> (cursiva)
+         - Palabra "premiado" en la sección de proyectos (tiene fondo naranja)
+         - Borde superior del footer
+         - Línea subrayada animada en nav cuando pasas el mouse
+         
+         CÓMO CAMBIAR: reemplaza #ff6b35 por otro color, ej: #e74c3c (rojo), #3498db (azul claro), #27ae60 (verde)
+      */
+      --color-acento: #ff6b35;
+      
+      /* #f5f5f5 es GRIS MUY CLARO casi blanco
+         DÓNDE LO VES:
+         - Panel "Tecnologías" a la derecha (aside) tiene este fondo gris claro
+         - Fondo de las tarjetas de artículos
+         
+         CÓMO CAMBIAR: reemplaza #f5f5f5 por otro gris, ej: #e8e8e8 (más oscuro), #fafafa (más claro)
+      */
+      --color-secundario: #f5f5f5;
+      
+      /* 8px es el valor de ESQUINAS REDONDEADAS
+         DÓNDE LO VES:
+         - Las esquinas redondeadas del badge "Premium"
+         - Las esquinas redondeadas del panel "Tecnologías" (aside)
+         - Las esquinas redondeadas de las tarjetas de artículos
+         - Las esquinas redondeadas de las imágenes
+         
+         CÓMO CAMBIAR: reemplaza 8px por otro valor
+         - 0px = esquinas completamente cuadradas
+         - 16px = esquinas muy redondeadas
+         - 50px = casi un círculo
+      */
+      --border-radius: 8px;
+      
+      /* 0 2px 8px rgba(0, 0, 0, 0.1) es la SOMBRA
+         Esto significa:
+         - 0: desplazamiento horizontal (0 = centrado)
+         - 2px: desplazamiento vertical hacia abajo
+         - 8px: qué tan difuminada está la sombra
+         - rgba(0, 0, 0, 0.1): sombra negra con 10% de opacidad
+         
+         DÓNDE LO VES:
+         - Sombra suave bajo el header
+         - Sombra suave bajo el nav
+         - Sombra suave en el badge "Premium"
+         - Sombra suave en el panel "Tecnologías"
+         - Sombras suaves en tarjetas al pasar el mouse
+         
+         CÓMO CAMBIAR: para sombra más oscura/visible: rgba(0, 0, 0, 0.3)
+      */
+      --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+      
+      /* 1rem es ESPACIADO BASE (1 rem = 16px en navegadores)
+         Se usa para mantener consistencia en espacios
+         DÓNDE LO VES: (aunque no es muy visible, se usa internamente)
+         
+         CÓMO CAMBIAR: reemplaza 1rem por otro valor, ej: 1.5rem (más espacio)
+      */
+      --espaciado: 1rem;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 2: BOX-SIZING UNIVERSAL                                                      ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ box-sizing: border-box = el tamaño del elemento INCLUYE el padding y border        ║
+       ║ Esto evita que los elementos se hagan más grandes cuando agregas padding.          ║
+       ║ Es una BUENA PRÁCTICA aplicarlo siempre.                                           ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    *,
+    *::before,
+    *::after {
+      /* box-sizing: border-box
+         ¿QUÉ HACE?: cuando establecemos width: 100%, el ancho TOTAL incluye:
+         - El contenido
+         - El padding (relleno interno)
+         - El border (borde)
+         - NO incluye margin (margen externo)
+         
+         SIN esta propiedad, width: 100% + padding haría que se salga de su contenedor.
+      */
+      box-sizing: border-box;
+      
+      /* margin: 0
+         ¿QUÉ HACE?: elimina el margen externo por defecto de elementos como <h1>, <p>, etc.
+         Por defecto, los navegadores agregan márgenes automáticos que pueden arruinar tu diseño.
+      */
+      margin: 0;
+      
+      /* padding: 0
+         ¿QUÉ HACE?: elimina el relleno interno por defecto de elementos como <ul>, <li>, etc.
+         Queremos control total sobre el espaciado.
+      */
+      padding: 0;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 3: ESTILOS BASE DEL BODY (FONDO Y FUENTE)                                   ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    body {
+      /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+         ¿QUÉ HACE?: define la FUENTE (tipografía) de todo el texto
+         - 'Segoe UI' es la primera opción (Windows usa esto)
+         - Si no existe, prueba Tahoma, luego Geneva, etc.
+         - sans-serif es la última opción (cualquier fuente sin serif)
+         
+         CÓMO CAMBIAR: reemplaza por otra fuente, ej:
+         - 'Arial' (simple y clara)
+         - 'Times New Roman' (con serifs, más clásica)
+         - 'Georgia' (elegante)
+      */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      
+      /* line-height: 1.6
+         ¿QUÉ HACE?: controla el espacio vertical entre líneas de texto
+         - 1.6 = 1.6 veces la altura de la fuente
+         - Valor por defecto 1 = líneas muy pegadas (difícil de leer)
+         - 1.6 = espaciado cómodo para leer
+         
+         CÓMO CAMBIAR: 
+         - 1.4 = más compacto
+         - 2.0 = más espaciado
+      */
+      line-height: 1.6;
+      
+      /* color: #333
+         ¿QUÉ HACE?: color del TEXTO por defecto en toda la página
+         #333 es gris oscuro casi negro (mucho mejor que negro puro #000 para leer)
+         
+         DÓNDE LO VES: en todo el texto que no tenga un color específico
+         
+         CÓMO CAMBIAR: reemplaza #333 por otro color
+         - #000000 (negro puro)
+         - #666666 (gris medio)
+      */
+      color: #333;
+      
+      /* background-color: #fff
+         ¿QUÉ HACE?: color de FONDO de la página
+         #fff es blanco
+         
+         CÓMO CAMBIAR: reemplaza #fff por otro color
+         - #f5f5f5 (blanco roto/gris muy claro)
+         - #eeeeee (gris muy claro)
+      */
+      background-color: #fff;
+      
+      /* padding-top: 70px
+         ¿QUÉ HACE?: agrega ESPACIO en la parte superior del body
+         ¿POR QUÉ?: porque el nav está con position: fixed (fijo arriba)
+         Si NO agregaramos este padding, el nav se superpondría sobre el contenido.
+         El nav ocupa aprox 60px, por eso agregamos 70px de espacio.
+         
+         DÓNDE LO VES: hay un espacio en blanco entre el nav fijo y el header
+         
+         CÓMO CAMBIAR: si cambias la altura del nav, cambia este valor también
+         - Mayor padding = más espacio arriba
+         - Menor padding = menos espacio arriba
+      */
+      padding-top: 70px;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 4: HEADER CON POSITION RELATIVE Y GRADIENT                                  ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ El header es el área principal de bienvenida con el título "Super pagina superbakan"║
+       ║ Usamos position: relative para que su hijo (badge) con position: absolute se       ║
+       ║ posicione respecto al header (no respecto a la página).                            ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    header {
+      /* position: relative
+         ¿QUÉ HACE?: el header se posiciona normalmente en el flujo (no se mueve)
+         PROPÓSITO: sirve como contenedor padre de referencia para elementos absolutos
+         
+         Ejemplo: el badge "Premium" está dentro del header y usa position: absolute.
+         Si header NO tuviera position: relative, el badge se posicionaría respecto a todo 
+         el documento, no respecto al header. Con position: relative, el badge se posiciona
+         respecto SOLO al header.
+      */
+      position: relative;
+      
+      /* background: linear-gradient(135deg, var(--color-primario) 0%, #2d5a8c 100%)
+         ¿QUÉ HACE?: crea un FONDO GRADIENTE (transición suave entre colores)
+         
+         EXPLICACIÓN:
+         - linear-gradient = gradiente en línea recta
+         - 135deg = ángulo de 135 grados (diagonal de arriba-izquierda a abajo-derecha)
+         - var(--color-primario) 0% = empieza con azul oscuro (#1e3a5f) en el 0%
+         - #2d5a8c 100% = termina con azul más claro en el 100%
+         
+         DÓNDE LO VES: el header tiene un fondo que degrada de azul oscuro a azul más claro
+         
+         CÓMO CAMBIAR:
+         - Cambiar el ángulo: 90deg (vertical), 45deg (diagonal diferente), 180deg (al revés)
+         - Cambiar los colores: reemplaza var(--color-primario) por #ff0000 (rojo) o #00ff00 (verde)
+         
+         EJEMPLOS:
+         background: linear-gradient(90deg, #1e3a5f 0%, #ff6b35 100%); // azul a naranja
+         background: linear-gradient(to right, red, yellow, green); // colores nomrados
+      */
+      background: linear-gradient(135deg, var(--color-primario) 0%, #2d5a8c 100%);
+      
+      /* color: white
+         ¿QUÉ HACE?: todo el TEXTO dentro del header será BLANCO
+         
+         DÓNDE LO VES: el título "Super pagina superbakan" y el subtítulo "Desarrolladora Web..." son blancos
+         
+         CÓMO CAMBIAR: reemplaza white por otro color
+         - #ffffff (blanco)
+         - #ffff00 (amarillo)
+         - #ffaa00 (naranja)
+      */
+      color: white;
+      
+      /* padding: 3rem 2rem
+         ¿QUÉ HACE?: agrega RELLENO INTERNO alrededor del contenido del header
+         
+         SINTAXIS: padding: [arriba/abajo] [izquierda/derecha]
+         - 3rem = 48px de relleno arriba y abajo
+         - 2rem = 32px de relleno izquierda y derecha
+         
+         DÓNDE LO VES: hay espacio blanco alrededor del título y subtítulo
+         
+         CÓMO CAMBIAR:
+         - padding: 1rem 2rem = menos espacio arriba/abajo
+         - padding: 5rem 2rem = más espacio arriba/abajo
+         - padding: 2rem 4rem = más espacio izquierda/derecha
+      */
+      padding: 3rem 2rem;
+      
+      /* text-align: center
+         ¿QUÉ HACE?: alinea TODO el texto del header al CENTRO
+         
+         DÓNDE LO VES: el título y subtítulo están centrados
+         
+         CÓMO CAMBIAR: reemplaza center por:
+         - left = alineado a la izquierda
+         - right = alineado a la derecha
+         - justify = justificado (ambos lados iguales)
+      */
+      text-align: center;
+      
+      /* box-shadow: var(--sombra)
+         ¿QUÉ HACE?: agrega una SOMBRA bajo el header
+         Usa la variable --sombra que definimos arriba (0 2px 8px rgba(0, 0, 0, 0.1))
+         
+         DÓNDE LO VES: hay una sombra suave bajo el header que lo separa visualmente del resto
+         
+         CÓMO CAMBIAR: reemplaza var(--sombra) por:
+         - 0 4px 12px rgba(0, 0, 0, 0.2) = sombra más oscura
+         - none = sin sombra
+      */
+      box-shadow: var(--sombra);
+      
+      /* margin-top: -70px
+         ¿QUÉ HACE?: MARGEN NEGATIVO que retrae el header hacia arriba
+         ¿POR QUÉ?: porque el body tiene padding-top: 70px (espacio arriba para el nav)
+         El header lo compensa con margen negativo para ocupar ese espacio.
+         
+         RESULTADO: el header toca el nav, sin espacio en blanco entre ellos
+         
+         CÓMO CAMBIAR: si cambias el padding-top del body, cambia este valor también
+         - -60px = si el padding-top es 60px
+         - -80px = si el padding-top es 80px
+      */
+      margin-top: -70px;
+      
+      /* padding-top: 6rem
+         ¿QUÉ HACE?: RELLENO ADICIONAL en la parte superior del header (96px)
+         
+         ¿POR QUÉ?: para compensar el margen negativo anterior y dejar espacio al titulo
+         El header así tiene:
+         - margin-top: -70px (compensa el padding del body)
+         - padding-top: 6rem (espacio real arriba del contenido)
+         - Resultado: el contenido está bien separado del nav
+         
+         CÓMO CAMBIAR:
+         - 4rem = menos espacio arriba
+         - 8rem = más espacio arriba
+      */
+      padding-top: 6rem;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 5: HEADER H1 (TÍTULO PRINCIPAL)                                            ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    header h1 {
+      /* font-size: 2.5rem
+         ¿QUÉ HACE?: define el TAMAÑO de la fuente del titulo
+         2.5rem = 40px (muy grande, es un título principal)
+         
+         DÓNDE LO VES: el texto "Super pagina superbakan" es grande
+         
+         CÓMO CAMBIAR:
+         - 2rem = 32px (más pequeño)
+         - 3rem = 48px (más grande)
+         - 1.5rem = 24px (pequeño)
+      */
+      font-size: 2.5rem;
+      
+      /* margin-bottom: 0.5rem
+         ¿QUÉ HACE?: agrega MARGEN (espacio exterior) debajo del h1
+         0.5rem = 8px
+         
+         DÓNDE LO VES: hay espacio entre el título y el subtítulo
+         
+         CÓMO CAMBIAR:
+         - 1rem = más espacio
+         - 0 = sin espacio
+      */
+      margin-bottom: 0.5rem;
+      
+      /* font-weight: 700
+         ¿QUÉ HACE?: define el GROSOR de la fuente
+         700 = bold (muy grueso)
+         
+         ESCALA de font-weight:
+         - 400 = normal
+         - 600 = semi-bold
+         - 700 = bold (grueso)
+         - 900 = black (muy grueso)
+         
+         CÓMO CAMBIAR: reemplaza 700 por otro valor, ej: 600 (menos grueso), 900 (más grueso)
+      */
+      font-weight: 700;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 6: HEADER P (PÁRRAFO/SUBTÍTULO)                                            ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    header p {
+      /* font-size: 1.1rem
+         ¿QUÉ HACE?: define el TAMAÑO del subtítulo
+         1.1rem = 17.6px (un poco más grande que normal)
+         
+         DÓNDE LO VES: el texto "Desarrolladora Web negrita · Santiago, Chile"
+         
+         CÓMO CAMBIAR:
+         - 1rem = tamaño normal
+         - 1.3rem = más grande
+      */
+      font-size: 1.1rem;
+      
+      /* opacity: 0.95
+         ¿QUÉ HACE?: controla la TRANSPARENCIA del texto
+         0.95 = 95% opaco (casi completamente visible)
+         
+         ESCALA:
+         - 0 = completamente transparente (invisible)
+         - 0.5 = 50% transparente (semi-visible)
+         - 1 = 100% opaco (completamente visible)
+         
+         RESULTADO: el subtítulo es casi blanco, un poco más suave que el título
+         
+         CÓMO CAMBIAR:
+         - 0.8 = más transparente (se ve más grisáceo)
+         - 1 = completamente opaco (blanco sólido)
+      */
+      opacity: 0.95;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 7: BADGE "PREMIUM" (POSITION ABSOLUTE)                                     ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ El badge "✨ Premium" es un pseudo-elemento ::after del header                     ║
+       ║ Usa position: absolute para flotar en la esquina superior derecha                  ║
+       ║ El :: antes de after significa que es un pseudoelemento (no es HTML real)          ║
+       ║ content: "✨ Premium" es el texto que aparece                                      ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    header::after {
+      /* content: "✨ Premium"
+         ¿QUÉ HACE?: define el CONTENIDO del pseudoelemento
+         Este texto aparecerá como si fuera un elemento HTML real
+         
+         DÓNDE LO VES: en la esquina superior derecha del header hay un badge que dice "✨ Premium"
+         
+         CÓMO CAMBIAR: reemplaza "✨ Premium" por otro texto, ej:
+         - "🔥 HOT"
+         - "⭐ DESTACADO"
+         - "✓ VERIFIED"
+      */
+      content: "✨ Premium";
+      
+      /* position: absolute
+         ¿QUÉ HACE?: posiciona el elemento LIBREMENTE en la página
+         El elemento se SALE del flujo normal y se posiciona exactamente donde le digas
+         
+         PUNTO IMPORTANTE: position: absolute se posiciona respecto al ancestro MÁS CERCANO
+         con position: relative. En este caso, es el header.
+         
+         ESTO SIGNIFICA: el badge se posiciona dentro del header, no en la página completa
+         
+         COMPARACIÓN:
+         - position: static (por defecto) = el elemento ocupa espacio normal
+         - position: relative = el elemento ocupa espacio pero se puede mover
+         - position: absolute = el elemento NO ocupa espacio y se puede posicionar libremente
+         - position: fixed = como absolute, pero respecto a la ventana del navegador
+         - position: sticky = entre relative y fixed
+      */
+      position: absolute;
+      
+      /* top: 1rem
+         ¿QUÉ HACE?: posiciona el badge a 1rem (16px) desde la PARTE SUPERIOR del header
+         
+         DÓNDE LO VES: hay 16px de espacio desde la parte superior del header hasta el badge
+         
+         CÓMO CAMBIAR:
+         - top: 0.5rem = más pegado arriba
+         - top: 2rem = más separado arriba
+         - bottom: 1rem = cambiar a medir desde abajo (déjalo en top, es más intuitivo)
+      */
+      top: 1rem;
+      
+      /* right: 2rem
+         ¿QUÉ HACE?: posiciona el badge a 2rem (32px) desde la PARTE DERECHA del header
+         
+         DÓNDE LO VES: el badge está en la esquina superior derecha, separado 32px del borde
+         
+         CÓMO CAMBIAR:
+         - right: 0.5rem = más pegado al borde derecho
+         - right: 3rem = más separado del borde
+         - left: 2rem = cambiar a medir desde la izquierda
+      */
+      right: 2rem;
+      
+      /* background-color: var(--color-acento)
+         ¿QUÉ HACE?: define el COLOR DE FONDO del badge
+         Usa la variable --color-acento que es #ff6b35 (naranja)
+         
+         DÓNDE LO VES: el badge tiene un fondo NARANJA
+         
+         CÓMO CAMBIAR: reemplaza var(--color-acento) por otro color
+         - #ff0000 (rojo)
+         - #00ff00 (verde)
+      */
+      background-color: var(--color-acento);
+      
+      /* color: white
+         ¿QUÉ HACE?: el TEXTO del badge será BLANCO
+         
+         DÓNDE LO VES: el texto "✨ Premium" es blanco sobre fondo naranja
+         
+         CÓMO CAMBIAR: reemplaza white por otro color
+      */
+      color: white;
+      
+      /* padding: 0.5rem 1rem
+         ¿QUÉ HACE?: agrega RELLENO INTERNO alrededor del texto
+         0.5rem (8px) arriba/abajo
+         1rem (16px) izquierda/derecha
+         
+         DÓNDE LO VES: hay espacio entre el texto y los bordes del badge
+         
+         CÓMO CAMBIAR:
+         - padding: 0.3rem 0.8rem = badge más compacto
+         - padding: 0.8rem 1.5rem = badge más grande
+      */
+      padding: 0.5rem 1rem;
+      
+      /* border-radius: var(--border-radius)
+         ¿QUÉ HACE?: redondea las ESQUINAS del badge
+         Usa la variable --border-radius que es 8px
+         
+         DÓNDE LO VES: el badge tiene esquinas redondeadas (no es un rectángulo cuadrado)
+         
+         CÓMO CAMBIAR:
+         - border-radius: 0 = esquinas cuadradas
+         - border-radius: 20px = esquinas muy redondeadas
+         - border-radius: 50% = forma de píldora
+      */
+      border-radius: var(--border-radius);
+      
+      /* font-weight: bold
+         ¿QUÉ HACE?: el TEXTO del badge será GRUESO (negrita)
+         
+         DÓNDE LO VES: "✨ Premium" se ve más grueso/destacado
+      */
+      font-weight: bold;
+      
+      /* font-size: 0.85rem
+         ¿QUÉ HACE?: el TAMAÑO del texto del badge es pequeño
+         0.85rem = 13.6px
+         
+         DÓNDE LO VES: el texto es pequeño en la esquina
+         
+         CÓMO CAMBIAR: 0.9rem (un poco más grande), 0.75rem (más pequeño)
+      */
+      font-size: 0.85rem;
+      
+      /* box-shadow: var(--sombra)
+         ¿QUÉ HACE?: agrega SOMBRA al badge para que se destaque
+         
+         DÓNDE LO VES: hay una sombra suave alrededor del badge
+      */
+      box-shadow: var(--sombra);
+      
+      /* z-index: 50
+         ¿QUÉ HACE?: controla la PROFUNDIDAD (qué está adelante/atrás)
+         50 = estará adelante de elementos con z-index menor
+         
+         VALORES COMUNES:
+         - z-index: 1 = muy atrás
+         - z-index: 50 = en el medio (adelante de la mayoría)
+         - z-index: 1000 = muy adelante (ej: nav fixed)
+         
+         CÓMO CAMBIAR: aumenta el número para que esté más adelante
+      */
+      z-index: 50;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 8: NAV CON POSITION FIXED                                                   ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ El nav es la barra de navegación FIJA en la parte superior                         ║
+       ║ position: fixed hace que se mantenga en el mismo lugar mientras haces scroll       ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav {
+      /* position: fixed
+         ¿QUÉ HACE?: el nav se FIJA en la ventana del navegador
+         Se queda en el mismo lugar aunque el usuario haga scroll
+         
+         DÓNDE LO VES: cuando scrolleas, el nav se queda arriba siempre visible
+         
+         COMPARACIÓN CON ABSOLUTE:
+         - position: absolute = se posiciona respecto a un ancestro con position: relative
+         - position: fixed = se posiciona respecto a la VENTANA (viewport)
+      */
+      position: fixed;
+      
+      /* top: 0
+         ¿QUÉ HACE?: el nav se PEGA a la PARTE SUPERIOR de la ventana
+         
+         DÓNDE LO VES: el nav está en la fila 0 (primera línea visible)
+         
+         CÓMO CAMBIAR:
+         - top: 10px = el nav está 10px abajo de la parte superior
+         - bottom: 0 = cambiar para pegarlo a la parte inferior
+      */
+      top: 0;
+      
+      /* left: 0
+         ¿QUÉ HACE?: el nav comienza desde la PARTE IZQUIERDA
+         
+         CÓMO CAMBIAR:
+         - left: 0 = desde la izquierda (actual)
+         - right: 0 = desde la derecha
+      */
+      left: 0;
+      
+      /* width: 100%
+         ¿QUÉ HACE?: el nav ocupa el 100% del ANCHO de la ventana
+         Esto hace que se extienda de lado a lado
+         
+         DÓNDE LO VES: la barra gris/azul se extiende de lado a lado
+         
+         CÓMO CAMBIAR:
+         - width: 80% = solo ocupa 80% del ancho (quedaría espacio vacío a los lados)
+      */
+      width: 100%;
+      
+      /* background-color: var(--color-primario)
+         ¿QUÉ HACE?: el FONDO del nav es azul oscuro
+         Usa la variable --color-primario (#1e3a5f)
+         
+         DÓNDE LO VES: la barra de navegación es AZUL OSCURO
+         
+         CÓMO CAMBIAR: reemplaza var(--color-primario) por otro color
+         - #ff0000 (rojo)
+         - #000000 (negro)
+      */
+      background-color: var(--color-primario);
+      
+      /* box-shadow: var(--sombra)
+         ¿QUÉ HACE?: agrega SOMBRA debajo del nav para separarlo del contenido
+         
+         DÓNDE LO VES: hay una sombra suave bajo la barra azul
+      */
+      box-shadow: var(--sombra);
+      
+      /* z-index: 1000
+         ¿QUÉ HACE?: el nav está MUY ADELANTE (encima de todo)
+         1000 es un valor muy alto, garantiza que el nav esté sobre todo lo demás
+         
+         ¿POR QUÉ?: si no tuviera z-index alto, otros elementos podrían estar encima del nav
+         Esto sería un error porque necesitamos que el nav siempre sea visible y clickeable
+         
+         COMPARACIÓN:
+         - badge (header::after) tiene z-index: 50
+         - nav tiene z-index: 1000 (mucho más adelante)
+      */
+      z-index: 1000;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 9: NAV UL (LISTA DE NAVEGACIÓN)                                            ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ Usa display: flex para distribuir los enlaces horizontalmente                     ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav ul {
+      /* display: flex
+         ¿QUÉ HACE?: convierte la lista en un CONTENEDOR FLEXIBLE (flexbox)
+         Permite distribuir los elementos hijo (li) horizontalmente
+         
+         SIN flexbox:
+         - Los <li> estarían uno debajo de otro (verticalmente)
+         
+         CON flexbox (display: flex):
+         - Los <li> están lado a lado (horizontalmente)
+         
+         DÓNDE LO VES: los enlaces "Sobre RONALDINHO", "Seccion memes", etc. están en línea horizontal
+         
+         CÓMO CAMBIAR:
+         - display: grid = otro método de layout (más complejo)
+         - display: inline-block = alternativa antigua a flex
+      */
+      display: flex;
+      
+      /* justify-content: center
+         ¿QUÉ HACE?: distribuye los elementos hijo HORIZONTALMENTE al CENTRO
+         
+         VALORES COMUNES:
+         - justify-content: flex-start = al inicio (izquierda)
+         - justify-content: center = al centro
+         - justify-content: flex-end = al final (derecha)
+         - justify-content: space-around = con espacio alrededor
+         - justify-content: space-between = espacio entre elementos
+         
+         DÓNDE LO VES: los enlaces están centrados en la barra de navegación
+         
+         CÓMO CAMBIAR: reemplaza center por flex-start para alinear a la izquierda
+      */
+      justify-content: center;
+      
+      /* gap: 2rem
+         ¿QUÉ HACE?: define el ESPACIO ENTRE elementos hijo (li)
+         2rem = 32px entre cada enlace
+         
+         DÓNDE LO VES: hay espacio entre "Sobre RONALDINHO", "Seccion memes", etc.
+         
+         CÓMO CAMBIAR:
+         - gap: 1rem = espacio más pequeño
+         - gap: 3rem = espacio más grande
+      */
+      gap: 2rem;
+      
+      /* padding: 1rem 2rem
+         ¿QUÉ HACE?: RELLENO INTERNO de la lista
+         1rem (16px) arriba/abajo
+         2rem (32px) izquierda/derecha
+         
+         DÓNDE LO VES: hay espacio entre los bordes de la barra y los enlaces
+         
+         CÓMO CAMBIAR:
+         - padding: 0.5rem 1rem = lista más compacta
+         - padding: 1.5rem 3rem = lista más espaciosa
+      */
+      padding: 1rem 2rem;
+      
+      /* list-style: none
+         ¿QUÉ HACE?: ELIMINA los puntos/bullets de la lista
+         
+         SIN esta propiedad:
+         - Los <li> mostrarían puntos (•) antes de cada elemento
+         
+         CON esta propiedad:
+         - Los <li> no muestran puntos
+         
+         DÓNDE LO VES: los enlaces NO tienen puntos delante
+      */
+      list-style: none;
+      
+      /* flex-wrap: wrap
+         ¿QUÉ HACE?: si los elementos no caben en una línea, se envuelven a la siguiente línea
+         
+         SIN flex-wrap:
+         - Si agregar más enlaces, se saldrían del contenedor (overflow)
+         
+         CON flex-wrap: wrap:
+         - Los enlaces "saltan" a la siguiente línea si no caben
+         
+         CÓMO CAMBIAR:
+         - flex-wrap: nowrap = no envuelve (todo en una línea)
+         - flex-wrap: wrap = envuelve a nueva línea
+      */
+      flex-wrap: wrap;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 10: NAV A (ENLACES EN LA NAVEGACIÓN)                                       ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav a {
+      /* color: white
+         ¿QUÉ HACE?: el TEXTO de los enlaces es BLANCO
+         
+         DÓNDE LO VES: "Sobre RONALDINHO", "Seccion memes", etc. son blancos
+         
+         CÓMO CAMBIAR: reemplaza white por otro color
+      */
+      color: white;
+      
+      /* text-decoration: none
+         ¿QUÉ HACE?: ELIMINA la raya subrayada de los enlaces
+         
+         SIN esta propiedad:
+         - Los enlaces tendrían un subrayado (underline)
+         
+         CON esta propiedad:
+         - Los enlaces NO tienen subrayado
+         
+         DÓNDE LO VES: los enlaces no tienen línea subrayada
+      */
+      text-decoration: none;
+      
+      /* font-weight: 600
+         ¿QUÉ HACE?: el TEXTO es semi-grueso (entre normal y bold)
+         
+         DÓNDE LO VES: los enlaces se ven más destacados que el texto normal
+      */
+      font-weight: 600;
+      
+      /* font-size: 1rem
+         ¿QUÉ HACE?: el TAMAÑO del texto de los enlaces
+         1rem = 16px (tamaño estándar)
+      */
+      font-size: 1rem;
+      
+      /* transition: color 0.3s ease
+         ¿QUÉ HACE?: hace que el cambio de COLOR sea SUAVE (animación)
+         color = la propiedad que cambia (color del texto)
+         0.3s = dura 0.3 segundos
+         ease = tipo de animación (suave, no brusca)
+         
+         DÓNDE LO VES: cuando pasas el mouse sobre un enlace, el color cambia lentamente
+         SIN transition: el color cambiaría instantáneamente (sin transición)
+         
+         CÓMO CAMBIAR:
+         - transition: color 0.1s ease = cambio más rápido
+         - transition: color 1s ease = cambio más lento
+         - transition: all 0.3s ease = todas las propiedades cambian suavemente
+      */
+      transition: color 0.3s ease;
+      
+      /* position: relative
+         ¿QUÉ HACE?: el enlace usa position: relative
+         
+         ¿POR QUÉ?: porque tiene un pseudoelemento ::after con position: absolute
+         El ::after se posiciona respecto al enlace (su ancestro con position: relative)
+      */
+      position: relative;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 11: NAV A:HOVER (EFECTO AL PASAR EL MOUSE)                                 ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav a:hover {
+      /* color: var(--color-acento)
+         ¿QUÉ HACE?: cuando pasas el mouse sobre el enlace, el color CAMBIA a NARANJA
+         
+         DÓNDE LO VES: si pones el mouse sobre "Sobre RONALDINHO", el texto se pone NARANJA
+         
+         ¿QUÉ ES :hover?:
+         :hover es un PSEUDOCLASE que se activa cuando el usuario pone el mouse sobre el elemento
+         
+         CÓMO CAMBIAR: reemplaza var(--color-acento) por otro color
+      */
+      color: var(--color-acento);
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 12: NAV A::AFTER (LÍNEA SUBRAYADA ANIMADA)                                 ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ Este es un pseudoelemento que crea una línea subrayada que crece al pasar el mouse ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav a::after {
+      /* content: ''
+         ¿QUÉ HACE?: crea un pseudoelemento vacío (sin contenido visual al inicio)
+         
+         DÓNDE LO VES: inicialmente no ves nada, pero cuando pasas el mouse, aparece una línea
+      */
+      content: '';
+      
+      /* position: absolute
+         ¿QUÉ HACE?: posiciona la línea ABSOLUTAMENTE respecto al enlace (su ancestro con position: relative)
+      */
+      position: absolute;
+      
+      /* bottom: -5px
+         ¿QUÉ HACE?: coloca la línea 5px DEBAJO del texto del enlace
+         
+         DÓNDE LO VES: la línea aparece bajo el texto (no encima)
+      */
+      bottom: -5px;
+      
+      /* left: 0
+         ¿QUÉ HACE?: la línea comienza desde la IZQUIERDA del enlace
+      */
+      left: 0;
+      
+      /* width: 0
+         ¿QUÉ HACE?: inicialmente la línea tiene ancho 0 (es invisible)
+         
+         DÓNDE LO VES: al inicio, no hay línea visible
+      */
+      width: 0;
+      
+      /* height: 2px
+         ¿QUÉ HACE?: la ALTURA de la línea es 2px
+         
+         DÓNDE LO VES: la línea es un rectángulo muy delgado
+      */
+      height: 2px;
+      
+      /* background-color: var(--color-acento)
+         ¿QUÉ HACE?: el COLOR de la línea es NARANJA
+         
+         DÓNDE LO VES: cuando pasas el mouse, aparece una línea naranja bajo el enlace
+      */
+      background-color: var(--color-acento);
+      
+      /* transition: width 0.3s ease
+         ¿QUÉ HACE?: hace que el ANCHO de la línea cambie SUAVEMENTE en 0.3 segundos
+         
+         ANIMACIÓN:
+         - width: 0 → width: 100% (cuando pasas el mouse)
+         - Este cambio dura 0.3 segundos y es suave
+         
+         DÓNDE LO VES: la línea crece lentamente de izquierda a derecha
+      */
+      transition: width 0.3s ease;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 13: NAV A:HOVER::AFTER (LÍNEA ANIMADA AL PASAR EL MOUSE)                   ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    nav a:hover::after {
+      /* width: 100%
+         ¿QUÉ HACE?: cuando pasas el mouse, la LÍNEA crece hasta 100% del ancho del enlace
+         
+         ANIMACIÓN COMPLETA:
+         1. Estado normal (sin hover): width: 0 (línea invisible)
+         2. Pasas el mouse (hover): width: 100% (línea crece)
+         3. Quitas el mouse: width: 0 (línea se retrae)
+         
+         TODO esto ocurre en 0.3 segundos (transition) de forma suave
+         
+         DÓNDE LO VES: cuando pasas el mouse sobre un enlace, aparece una línea naranja que crece
+      */
+      width: 100%;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 14: MAIN CON DISPLAY FLEX (LAYOUT PRINCIPAL)                               ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    main {
+      /* display: flex
+         ¿QUÉ HACE?: convierte main en un CONTENEDOR FLEXIBLE
+         Los elementos hijo (sections y aside) se distribuyen horizontalmente
+         
+         DÓNDE LO VES: el contenido principal está a la izquierda y el panel "Tecnologías" a la derecha
+      */
+      display: flex;
+      
+      /* gap: 2rem
+         ¿QUÉ HACE?: espacio entre los elementos hijo
+         2rem = 32px entre el contenido principal y el aside
+      */
+      gap: 2rem;
+      
+      /* padding: 2rem
+         ¿QUÉ HACE?: RELLENO INTERNO de main
+         2rem (32px) en todos los lados
+         
+         DÓNDE LO VES: hay espacio entre los bordes de la página y el contenido
+      */
+      padding: 2rem;
+      
+      /* max-width: 1200px
+         ¿QUÉ HACE?: establece un ANCHO MÁXIMO de 1200px
+         Si la pantalla es más ancha, el main no crecerá más de 1200px
+         
+         ¿POR QUÉ?: para que no haya líneas de texto muy largas (difícil de leer)
+         
+         DÓNDE LO VES: en pantallas muy grandes, hay espacios vacíos a los lados
+         
+         CÓMO CAMBIAR:
+         - max-width: 1000px = contenedor más estrecho
+         - max-width: 1400px = contenedor más ancho
+      */
+      max-width: 1200px;
+      
+      /* margin: 0 auto
+         ¿QUÉ HACE?: centra el main horizontalmente en la página
+         - margin: 0 = sin margen arriba/abajo
+         - auto = margen automático izquierda/derecha (lo centra)
+         
+         DÓNDE LO VES: el contenido está centrado en la página
+      */
+      margin: 0 auto;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 15: MAIN > SECTION (SECCIONES DENTRO DE MAIN)                              ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    main > section {
+      /* flex: 1
+         ¿QUÉ HACE?: el section ocupa TODO el espacio disponible en main
+         Comparte el espacio equitativamente con el aside
+         
+         SINTAXIS de flex:
+         - flex: 1 = ocupa 1 unidad de espacio disponible
+         - flex: 2 = ocupa 2 unidades (el doble)
+         - flex: 0 = no crece (tamaño fijo)
+         
+         DÓNDE LO VES: el contenido principal es ancho, el aside tiene ancho fijo
+         
+         CÓMO CAMBIAR:
+         - flex: 1 = crece igual
+         - flex: 0 = tamaño fijo (necesitas width especificado)
+      */
+      flex: 1;
+    }
+
+    /* ╔════════════════════════════════════════════════════════════════════════════════════╗
+       ║ PARTE 16: ASIDE CON POSITION STICKY (PANEL DERECHO)                              ║
+       ║ ────────────────────────────────────────────────────────────────────────────────────║
+       ║ El aside es el panel derecho "Tecnologías" que acompaña el scroll                  ║
+       ║ position: sticky hace que se quede visible mientras haces scroll                  ║
+       ╚════════════════════════════════════════════════════════════════════════════════════╝ */
+    aside {
+      /* position: sticky
+         ¿QUÉ HACE?: el aside se PEGA a cierta posición cuando haces scroll
+         Es un intermedio entre relative y fixed
+         
+         COMPORTAMIENTO:
+         - Inicialmente se comporta como position: relative (en el flujo normal)
+         - Cuando el usuario hace scroll y el aside llega a la posición top: 80px, se "pega"
+         - Se queda pegado mientras scrolleas (como fixed)
+         - Cuando llega al final del contenedor padre, se va con él
+         
+         DÓNDE LO VES: mientras haces scroll, el panel "Tecnologías" se queda visible
+         
+         COMPARACIÓN:
+         - position: fixed = se queda en un lugar de la ventana (siempre visible, aún fuera del contenedor)
+         - position: sticky = se queda pegado hasta el final del contenedor padre
+      */
+      position: sticky;
+      
+      /* top: 80px
+         ¿QUÉ HACE?: cuando el aside se "pega", queda 80px desde la parte superior
+         
+         ¿POR QUÉ 80px?: porque el nav fixed tiene aprox 60px, más un poco de espacio
+         
+         DÓNDE LO VES: el aside se queda 80px abajo del nav fijo
+         
+         CÓMO CAMBIAR:
+         - top: 60px = pega más cerca del nav
+         - top: 100px = pega más abajo
+      */
+      top: 80px;
+      
+      /* width: 250px
+         ¿QUÉ HACE?: el ANCHO del aside es 250px (fijo)
+         
+         DÓNDE LO VES: el panel derecho tiene un ancho específico
+         
+         CÓMO CAMBIAR:
+         - width: 200px = más estrecho
+         - width: 300px = más ancho
+      */
+      width: 250px;
+      
+      /* background-color: var(--color-secundario)
+         ¿QUÉ HACE?: el FONDO del aside es GRIS CLARO
+         Usa la variable --color-secundario (#f5f5f5)
+         
+         DÓNDE LO VES: el panel "Tecnologías" tiene un fondo gris claro (diferente del blanco)
+         
+         CÓMO CAMBIAR: reemplaza var(--color-secundario) por otro color
+         - #ffffff (blanco)
+         - #e8e8e8 (gris más oscuro)
+      */
+      background-color: var(--color-secundario);
+      
+      /* padding: 1.5rem
+         ¿QUÉ HACE?: RELLENO INTERNO del aside
+         1.5rem (24px) en todos los lados
+         
+         DÓNDE LO VES: hay espacio entre los bordes del panel y el contenido
+      */
+      padding: 1.5rem;
+      
+      /* border-radius: var(--border-radius)
+         ¿QUÉ HACE?: ESQUINAS REDONDEADAS del aside
+         Usa la variable --border-radius (8px)
+         
+         DÓNDE LO VES: el panel tiene esquinas redondeadas
+      */
+      border-radius: var(--border-radius);
+      
+      /* box-shadow: var(--sombra)
+         ¿QUÉ HACE?: SOMBRA alrededor del aside
+         
+         DÓNDE LO VES: hay una sombra suave alrededor del panel
+      */
+      box-shadow: var(--sombra);
+      
+      /* height: fit-content
+         ¿QUÉ HACE?: el ALTO del aside se ajusta automáticamente al contenido
+         
+         VALORES COMUNES:
+         - height: auto = se ajusta al contenido
+         - height: fit-content = igual que auto (más nuevo)
+         - height: 300px = altura fija
+         - height: 100% = 100% del contenedor padre
+         
+         DÓNDE LO VES: el panel tiene exactamente la altura necesaria para su contenido
+      */
+      height: fit-content;
+      
+      /* margin-top: 2rem
+         ¿QUÉ HACE?: espacio ARRIBA del aside
+         
+         ¿POR QUÉ?: para que el aside no esté pegado a la parte superior del main
+         
+         DÓNDE LO VES: hay espacio entre la parte superior del main y el panel
+      */
+      margin-top: 2rem;
+    }
+
+    /* Continuará... */
+
+  </style>
+
+</head>
+<body>
+
+  <header>
+    <h1>Super pagina superbakan</h1>
+    <p>Desarrolladora Web <strong>negrita</strong> · Santiago, Chile</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#sobre-RONALDINHO">Sobre RONALDINHO</a></li>
+      <li><a href="#seccion memes">Seccion memes</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section id="sobre-RONALDINHO">
+      <h2>Sobre mí</h2>
+      <img src="https://placehold.co/300x300?text=Ronaldinho" alt="gif de ronaldinho" width="300" height="300">
+      <p>
+        Aguante ronaldinho haciendo una <em>Bicicleta</em> terrible <strong>WENA</strong>.
+        Tenia cualquier experiencia el loco pero probo la droga y nunca se chanto.<br>
+        Actualmente esta en cana
+      </p>
+    </section>
+
+    <section id="seccion memes">
+      <h2>seccion memes</h2>
+
+      <article>
+        <h3>Memes rancios</h3>
+        <img src="https://placehold.co/300x450?text=Meme+1" alt="gift de 150 x 450" width="300" height="450">
+        <img src="https://placehold.co/300x300?text=Gorila" alt="gorila bailando" width="300" height="300">
+        <img src="https://placehold.co/300x300?text=Meme+2" alt="gift rancio" width="300" height="300">
+        <img src="https://placehold.co/300x300?text=Meme+3" alt="gift rancio 2" width="300" height="300">
+        <p>Los memes mas rancios que encontre en la wayback machine.</p>
+        <h4>Paginas que use</h4>
+        <ol>
+          <li>wayback Machine</li>
+          <li><strong>jaidefinichon</strong></li>
+          <li>giftly</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Desarrollo Frontend</h3>
+        <img src="https://placehold.co/600x400?text=Codigo+Frontend" alt="Ejemplo de código frontend" width="600" height="400">
+        <p>Convierto diseños en páginas web funcionales e interactivas.</p>
+        <h4>Pasos de mi proceso:</h4>
+        <ol>
+          <li>Análisis de requerimientos</li>
+          <li>Wireframe y prototipo</li>
+          <li>Maquetación HTML + CSS</li>
+          <li>Interactividad con JavaScript</li>
+          <li>Pruebas y entrega</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Consultoría SEO</h3>
+        <img src="https://placehold.co/600x400?text=Metricas+SEO" alt="Gráfico de métricas SEO" width="600" height="400">
+        <p>Optimizo sitios para que aparezcan en los primeros resultados de búsqueda.</p>
+      </article>
+
+    </section>
+
+    <section id="proyectos">
+      <h2>Proyectos</h2>
+
+      <article>
+        <h3>Portfolio Personal</h3>
+        <p>Sitio web <span class="destacado">premiado</span> construido solo con HTML y CSS.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+      <article>
+        <h3>Tienda Online</h3>
+        <p>E-commerce desarrollado con JavaScript vanilla y LocalStorage.</p>
+        <p><a href="https://github.com" target="_blank">Ver en GitHub</a></p>
+      </article>
+
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>¿Tienes un proyecto en mente? Escríbeme:</p>
+      <ul>
+        <li>Email: <a href="mailto:coto@hotmail.cl">coto@hotmail.cl</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com" target="_blank">linkedin.com/in/jaidefinichon</a></li>
+        <li>GitHub: <a href="https://github.com" target="_blank">github.com/jaidefinichon</a></li>
+      </ul>
+    </section>
+
+    <aside>
+      <h2>Tecnologías</h2>
+      <ul>
+        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+        <li><strong>Herramientas:</strong> VS Code, Git, Figma</li>
+        <li><strong>Idiomas:</strong> Español (nativo), Inglés (intermedio)</li>
+      </ul>
+      <h5>Dato rápido</h5>
+      <p><em>Disponible para proyectos freelance</em> desde marzo 2026.</p>
+    </aside>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Ana García · <a href="#">Volver arriba</a></p>
+    <h6>Versión del sitio</h6>
+    <p><small>v2.0 — Proyecto Semana 2 · HTML5 + CSS3 · INACAP 2026</small></p>
+  </footer>
+
+</body>
+</html>
